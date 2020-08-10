@@ -2,6 +2,17 @@
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
+// display value of slider when it is moved
+var slider = document.getElementById("range");
+var output = document.getElementById("number");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+
+
+
 // password characters 
 const lowerAlpha = "abcdefghijklmnopqrstuvwxyz";
 const upperAlpha = lowerAlpha.toUpperCase();
@@ -13,7 +24,7 @@ const symbols = "!@#$%^&*(){}[]=<>/,.+";
 var generatePassword = function() {
 
     // gets selected character types
-    var length = getLength();
+    var length = slider.value;
     const confirmLower = document.getElementById('lowercase').checked;
     const confirmUpper = document.getElementById('uppercase').checked;
     const confirmNumber = document.getElementById('numbers').checked;
@@ -58,18 +69,7 @@ var generatePassword = function() {
 
 };
 
-// grabs length preference selected from slider
-var getLength = function () {
 
-    var slider = document.getElementById("range");
-    var output = document.getElementById("number");
-    output.innerHTML = slider.value;
-
-    let update = () => output.innerHTML = slider.value;
-    
-    slider.addEventListener('input', update);
-    return update();
-};
 
 
 
