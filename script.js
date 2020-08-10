@@ -2,22 +2,63 @@
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+// password characters 
+const lowerAlpha = "abcdefghijklmnopqrstuvwxyz";
+const upperAlpha = lowerAlpha.toUpperCase();
+const numbers = "0123456789";
+const symbols = "!@#$%^&*(){}[]=<>/,.+";
 
-  passwordText.value = password;
 
-}
-
+// Generate password function
 var generatePassword = function() {
-    
-    var length = getLength();
 
+    // gets selected character types
+    var length = getLength();
+    const confirmLower = document.getElementById('lowercase').checked;
+    const confirmUpper = document.getElementById('uppercase').checked;
+    const confirmNumber = document.getElementById('numbers').checked;
+    const confirmSymbol = document.getElementById('special').checked;
+    
+    // variable that will build the password
+    var charBuild = '';
+    var generatedPassword = '';
+
+    // counts how many character types are selected
+    var countOptions = confirmLower + confirmUpper + confirmNumber + confirmSymbol;
+
+    // if none are selected...
+    if (countOptions === 0) {
+        generatedPassword = generatedPassword + 'Please pick at least one character type!';
+        return generatedPassword;
+    }
+
+    if (confirmLower) {
+        charBuild =charBuild.concat(lowerAlpha);
+    }
+    if (confirmUpper) {
+        charBuild =charBuild.concat(upperAlpha);
+    }
+    if (confirmNumber) {
+        charBuild =charBuild.concat(numbers);
+    }
+    if (confirmSymbol) {
+        charBuild =charBuild.concat(symbols);
+    }
+
+    // loop through the charsBuild, which includes all character types selected and grabs a random character each time
+    for (i = 0; i < length; i++) {
+        var randomi = Math.floor(Math.random() * charBuild.length);
+         generatedPassword += charBuild[randomi];
+
+    }
+    
+    return generatedPassword;
+
+    
 
 };
 
+// grabs length preference selected from slider
 var getLength = function () {
 
     var slider = document.getElementById("range");
@@ -25,12 +66,21 @@ var getLength = function () {
     output.innerHTML = slider.value;
 
     let update = () => output.innerHTML = slider.value;
-
-
+    
     slider.addEventListener('input', update);
     return update();
 };
 
+
+
+// Write password to the #password input
+function writePassword() {
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+  
+    passwordText.value = password;
+  
+  }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
